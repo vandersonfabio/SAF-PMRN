@@ -28,9 +28,9 @@
 			
 			<div class="form-group">
                 <label for="idUnidadeSuperior">Unidade Superior</label>
-				<select class="form-control" name="idUnidadeSuperior">
+				<select class="form-control" name="idUnidadeSuperior">                    
 					@foreach ($unidades->all() as $uni)
-						<option value = "{{ $uni->id }}">{{{{$uni->sigla}}</option>
+						<option value = "{{ $uni->id }}">{{$uni->sigla}}</option>
 					@endforeach
 				</select>
 			</div>

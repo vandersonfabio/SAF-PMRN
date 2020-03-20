@@ -24,7 +24,7 @@ class UnidadeFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'sigla'=>'required|max:30',
+            'sigla'=>'required|max:50',
             'descricao'=>'required|max:100'
         ];
     }

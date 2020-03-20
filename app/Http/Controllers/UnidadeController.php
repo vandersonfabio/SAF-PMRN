@@ -20,7 +20,7 @@ class UnidadeController extends Controller
         if($request){
             $query = trim($request->get('searchText'));            
             $unidadesEncontradas = DB::table('unidade as u')
-            ->leftJoin('unidade as uPai', 'u.id_unidade_superior', '=', 'uPai.id')            
+            ->leftJoin('unidade as uPai', 'u.idUnidadeSuperior', '=', 'uPai.id')            
             ->select(
                 'u.id',
                 'u.sigla',
@@ -28,7 +28,7 @@ class UnidadeController extends Controller
                 'uPai.sigla as siglaUnidadeSuperior'               
             )
             ->where('u.descricao', 'LIKE', "%".$query.'%')
-            ->where('u.is_active', 1)
+            ->where('u.isActive', 1)
             ->orderBy('u.id', 'asc')
             ->paginate(7);
 
@@ -41,14 +41,18 @@ class UnidadeController extends Controller
     }
 
     public function create(){
-        return view("unidade.create");
+        $unidades = DB::table('unidade')->where('isActive',1)->orderBy('sigla','asc')->get();
+        return view("unidade.create",[
+            "unidades"=>$unidades
+            ]
+        );
     }
 
     public function store(UnidadeFormRequest $request){
         $unidade = new Unidade;
         $unidade->sigla = $request->get('sigla');
         $unidade->descricao = $request->get('descricao');
-        $unidade->idUnidadeSuperior = $request->get('id_unidade_superior');
+        $unidade->idUnidadeSuperior = $request->get('idUnidadeSuperior');
         $unidade->save();
 
         return Redirect::to('unidade');
@@ -61,7 +65,7 @@ class UnidadeController extends Controller
 
     public function edit($id){
 
-        $unidades = DB::table('unidade')->where('is_active',1)->where('id','!=',$id)->orderBy('sigla','asc')->get();
+        $unidades = DB::table('unidade')->where('isActive',1)->where('id','!=',$id)->orderBy('sigla','asc')->get();
 
         return view("unidade.edit", 
             [
@@ -75,7 +79,7 @@ class UnidadeController extends Controller
         $unidade = Unidade::findOrFail($id);
         $unidade->sigla = $request->get('sigla');
         $unidade->descricao = $request->get('descricao');
-        $unidade->unidade_superior = $request->get('id_unidade_superior');
+        $unidade->idUnidadeSuperior = $request->get('idUnidadeSuperior');
         $unidade->update();
         return Redirect::to('unidade');
     }

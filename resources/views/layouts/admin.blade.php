@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Controle Carga | 6º BPM</title>
+    <title>SAF | PMRN</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -29,7 +29,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>CC</b></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">Controle Carga</span>
+          <span class="logo-lg">SAF - PMRN</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -145,7 +145,7 @@
             <div class="col-md-12">
               <div class="box">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Sistema de Gestão de Material Carga | 6º BPM</h3>
+                  <h3 class="box-title">Sistema de Administração da Frota | PMRN</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     
