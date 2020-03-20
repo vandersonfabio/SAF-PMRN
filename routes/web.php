@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('unidade', 'UnidadeController');
+Route::resource('modelo', 'ModeloController');
