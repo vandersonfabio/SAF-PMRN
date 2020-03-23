@@ -62,31 +62,27 @@ class ModeloController extends Controller
 
     public function edit($id){
 
-        $unidades = DB::table('unidade')->where('isActive',1)->where('id','!=',$id)->orderBy('sigla','asc')->get();
+        $fabricantes = DB::table('marca')->orderBy('descricao','asc')->get();
 
-        return view("unidade.edit", 
+        return view("modelo.edit", 
             [
-                "unidades" => $unidades,
-                "unidade" => Unidade::findOrFail($id)
+                "fabricantes" => $fabricantes,
+                "modelo" => Modelo::findOrFail($id)
             ]
         );
     }
 
-    public function update(UnidadeFormRequest $request, $id){
-        $unidade = Unidade::findOrFail($id);
-        $unidade->sigla = $request->get('sigla');
-        $unidade->descricao = $request->get('descricao');
-        $unidade->idUnidadeSuperior = $request->get('idUnidadeSuperior');
-        $unidade->update();
-        return Redirect::to('unidade');
+    public function update(ModeloFormRequest $request, $id){
+        $modelo = Modelo::findOrFail($id);        
+        $modelo->descricao = $request->get('descricao');
+        $modelo->idMarca = $request->get('idMarca');
+        $modelo->update();
+        return Redirect::to('modelo');
     }
 
     public function destroy($id){
-        $unidade = Unidade::findOrFail($id);
-        $unidade->isActive = 0;
-        $unidade->update();
-        //Caso queira realmente deletar o registro do banco, use o método DELETE()
-        //$fabricante->delete();
-        return Redirect::to('unidade');
+        $modelo = Modelo::findOrFail($id);        
+        $modelo->delete();
+        return Redirect::to('modelo');
     }
 }
