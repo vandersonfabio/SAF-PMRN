@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModeloFormRequest extends FormRequest
+class ProprietarioFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class ModeloFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [            
-            'nome'=>'required|max:50',
-            'idMarca'=>'required'
+        return [
+            'nome'=>'required|max:100',
+            'cnpj'=>'required|max:18'
         ];
     }
 }
