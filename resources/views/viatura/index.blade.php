@@ -29,12 +29,13 @@
                     <td>{{ $viatura->chassi}}</td>
                     <td>{{ $viatura->siglaUnidade}}</td>
 					<td>
-                        <a href="" data-target="#modal-info-{{$viatura->id}}" data-toggle="modal"><button class="btn btn-alert">Info</button></a>
+                        <a href="" data-target="#modal-info-{{$viatura->id}}" data-toggle="modal"><button class="btn btn-warning">Info</button></a>
                         <a href="{{URL::action('ViaturaController@edit',$viatura->id)}}"><button class="btn btn-info">Editar</button></a>                        
                         <a href="" data-target="#modal-delete-{{$viatura->id}}" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 					</td>
 				</tr>
 				@include('viatura.modal')
+                @include('viatura.modaledit')
 				@endforeach
 			</table>
 		</div>

@@ -85,13 +85,23 @@ class ViaturaController extends Controller
         );
     }
 
-    public function store(ModeloFormRequest $request){
-        $modelo = new Modelo;        
-        $modelo->descricao = $request->get('descricao');
-        $modelo->idMarca = $request->get('idMarca');
-        $modelo->save();
+    public function store(ViaturaFormRequest $request){
+        $viatura = new Viatura;        
+        $viatura->chassi = strtoupper($request->get('chassi'));
+        $viatura->placa = strtoupper($request->get('placa'));
+        $viatura->prefixo = strtoupper($request->get('prefixo'));
+        $viatura->ano = $request->get('ano');
+        $viatura->aquisicao = $request->get('aquisicao');
+        $viatura->isOperant = $request->get('isOperant');        
+        $viatura->observacoes = $request->get('observacoes');
+        $viatura->recebimento = $request->get('recebimento');
+        $viatura->efetivo = $request->get('efetivo');
+        $viatura->idModelo = $request->get('idModelo');
+        $viatura->idProprietario = $request->get('idProprietario');
+        $viatura->idUnidade = $request->get('idUnidade');
+        $viatura->save();
 
-        return Redirect::to('modelo');
+        return Redirect::to('viatura');
     }
 
     public function show($id){
