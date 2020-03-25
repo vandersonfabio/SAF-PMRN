@@ -47,7 +47,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <small class="bg-red">Usuário logado:</small>
-                  <span class="hidden-xs">Eu</span>
+                  <span class="hidden-xs">{{ Auth::user()->patente }} {{ Auth::user()->nomeFuncional }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -56,7 +56,7 @@
                       Para uma maior segurança, lembre sempre de sair do sistema ao finalizar suas tarefas. 
                       <small>Utilize o botão abaixo para sair da seção.</small>
                     </p>
-                    <a href="" class="btn btn-default btn-flat">SAIR DO SISTEMA</a>
+                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat">SAIR DO SISTEMA</a>
                   </li>
                   
                   <!-- Menu Footer-->

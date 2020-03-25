@@ -12,10 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');    
+    return view('auth/login');    
 });
 
-Route::resource('unidade', 'UnidadeController');
-Route::resource('modelo', 'ModeloController');
-Route::resource('proprietario', 'ProprietarioController');
-Route::resource('viatura', 'ViaturaController');
+Auth::routes();
+
+Route::group(['middleware'=>['auth']], function(){
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::resource('unidade', 'UnidadeController');
+    Route::resource('modelo', 'ModeloController');
+    Route::resource('proprietario', 'ProprietarioController');
+    Route::resource('viatura', 'ViaturaController');
+});
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout'); 

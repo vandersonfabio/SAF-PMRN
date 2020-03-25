@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Você está logado, <b>{{ Auth::user()->patente }} {{ Auth::user()->nomeFuncional }}</b>!
                 </div>
             </div>
         </div>
