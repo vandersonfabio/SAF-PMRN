@@ -111,27 +111,54 @@ class ViaturaController extends Controller
 
     public function edit($id){
 
-        $fabricantes = DB::table('marca')->orderBy('descricao','asc')->get();
+        $modelos = DB::table('modelo')
+            ->join('marca', 'modelo.idMarca', '=', 'marca.id')
+            ->select(
+                'modelo.id',
+                'modelo.descricao',                
+                'marca.descricao as descricaoMarca'
+            )
+            ->orderBy('marca.descricao','asc')
+            ->orderBy('modelo.descricao','asc')
+            ->get();
 
-        return view("modelo.edit", 
+        $proprietarios = DB::table('proprietario')->orderBy('nome','asc')->get();
+        $unidades = DB::table('unidade')->orderBy('sigla','asc')->get();
+
+        return view("viatura.edit", 
             [
-                "fabricantes" => $fabricantes,
-                "modelo" => Modelo::findOrFail($id)
+                "modelos" => $modelos,
+                "proprietarios" => $proprietarios,
+                "unidades" => $unidades,
+                "viatura" => Viatura::findOrFail($id)
             ]
         );
     }
 
-    public function update(ModeloFormRequest $request, $id){
-        $modelo = Modelo::findOrFail($id);        
-        $modelo->descricao = $request->get('descricao');
-        $modelo->idMarca = $request->get('idMarca');
-        $modelo->update();
-        return Redirect::to('modelo');
+    public function update(ViaturaFormRequest $request, $id){
+        $viatura = Viatura::findOrFail($id);        
+        $viatura->chassi = strtoupper($request->get('chassi'));
+        $viatura->placa = strtoupper($request->get('placa'));
+        $viatura->prefixo = strtoupper($request->get('prefixo'));
+        $viatura->ano = $request->get('ano');
+        $viatura->aquisicao = $request->get('aquisicao');
+        $viatura->isOperant = $request->get('isOperant');        
+        $viatura->observacoes = $request->get('observacoes');
+        $viatura->recebimento = $request->get('recebimento');
+        $viatura->efetivo = $request->get('efetivo');
+        $viatura->idModelo = $request->get('idModelo');
+        $viatura->idProprietario = $request->get('idProprietario');
+        $viatura->idUnidade = $request->get('idUnidade');
+        $viatura->update();
+        return Redirect::to('viatura');
     }
 
     public function destroy($id){
-        $modelo = Modelo::findOrFail($id);        
-        $modelo->delete();
-        return Redirect::to('modelo');
+        $viatura = Viatura::findOrFail($id);
+        $viatura->isActive = 0;
+        $viatura->update();
+        //Caso queira realmente deletar o registro do banco, use o método DELETE()
+        //$fabricante->delete();
+        return Redirect::to('viatura');
     }
 }
