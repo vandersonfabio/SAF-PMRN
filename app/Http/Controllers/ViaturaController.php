@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Viatura;
 use App\Modelo;
 use App\Proprietario;
+use Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ViaturaFormRequest;
 use DB;
@@ -20,6 +21,10 @@ class ViaturaController extends Controller
     public function index(Request $request){
         
         if($request){
+
+            $unidadesSubordinadas = [];
+            $this->buscarUnidadesSubordinadas(Auth::user()->idUnidade, $unidadesSubordinadas);
+            
             $query = trim($request->get('searchText'));            
             $viaturasEncontradas = DB::table('viatura as vtr')
             ->join('modelo as mod', 'vtr.idModelo', '=', 'mod.id')
@@ -45,7 +50,8 @@ class ViaturaController extends Controller
                 'prop.nome as nomeProprietario'
             )
             ->where('vtr.placa', 'LIKE', "%".$query.'%')            
-            ->where('vtr.isActive', '=', 1)            
+            ->where('vtr.isActive', '=', 1)
+            ->whereIn('unid.id', $unidadesSubordinadas)            
             ->orderBy('vtr.id', 'asc')
             ->paginate(7);
 
@@ -69,10 +75,31 @@ class ViaturaController extends Controller
         ->orderBy('modelo.descricao', 'asc')
         ->get();
         
+/*
+        $unidades = DB::select(
+            'select  id, descricao, idUnidadeSuperior 
+            from(
+                select * from unidade
+                order by idUnidadeSuperior, id
+                ) 
+            unidades_sorted, (
+                select @pv := '. Auth::user()->idUnidade . '
+                ) initialisation
+            where   find_in_set(
+                idUnidadeSuperior, @pv
+                )
+            and length(@pv := concat(@pv, ',', id))'
+        );        
+*/       
+       
+        $unidadesSubordinadas = [];
+        $this->buscarUnidadesSubordinadas(Auth::user()->idUnidade, $unidadesSubordinadas);
+
         $unidades = DB::table('unidade')
+            ->whereIn('id', $unidadesSubordinadas)
             ->orderBy('sigla', 'asc')
             ->get();
-        
+
         $proprietarios = DB::table('proprietario')
             ->orderBy('nome', 'asc')
             ->get();
@@ -123,7 +150,10 @@ class ViaturaController extends Controller
             ->get();
 
         $proprietarios = DB::table('proprietario')->orderBy('nome','asc')->get();
-        $unidades = DB::table('unidade')->orderBy('sigla','asc')->get();
+        
+        $unidadesSubordinadas = [];
+        $this->buscarUnidadesSubordinadas(Auth::user()->idUnidade, $unidadesSubordinadas);
+        $unidades = DB::table('unidade')->whereIn('id',$unidadesSubordinadas)->orderBy('sigla','asc')->get();
 
         return view("viatura.edit", 
             [
@@ -160,5 +190,24 @@ class ViaturaController extends Controller
         //Caso queira realmente deletar o registro do banco, use o método DELETE()
         //$fabricante->delete();
         return Redirect::to('viatura');
+    }
+
+    public function buscarUnidadesSubordinadas($id, &$array){
+        array_push($array, $id);
+        try{
+            $unidades = DB::table('unidade')
+            ->where('isActive',1)
+            ->where('idUnidadeSuperior','=',$id)
+            ->orderBy('sigla','asc')
+            ->get();
+        }
+        catch(Exception $e){
+            echo $e->errorMessage();
+        }        
+        if(count($unidades) > 0){                        
+            foreach($unidades as $uni){
+                $this->buscarUnidadesSubordinadas($uni->id, $array);
+            }
+        }
     }
 }

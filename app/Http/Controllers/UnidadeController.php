@@ -91,5 +91,5 @@ class UnidadeController extends Controller
         //Caso queira realmente deletar o registro do banco, use o método DELETE()
         //$fabricante->delete();
         return Redirect::to('unidade');
-    }
+    }    
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SAF | PMRN</title>
+    <title>Sistema de Administração da Frota | PMRN</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -27,7 +27,7 @@
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>CC</b></span>
+          <span class="logo-mini"><b>SAF</b></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">SAF - PMRN</span>
         </a>
@@ -46,8 +46,8 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <small class="bg-red">Usuário logado:</small>
-                  <span class="hidden-xs">{{ Auth::user()->patente }} {{ Auth::user()->nomeFuncional }}</span>
+                  <small class="bg-blue">Usuário logado:</small>
+                  <span class="hidden-xs">{{ Auth::user()->patente }} {{ Auth::user()->nomeFuncional }} ({{ Auth::user()->matricula }})</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -87,13 +87,13 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-laptop"></i>
-                <span>Itens</span>
+                <span>Viaturas</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../item/item"><i class="fa fa-circle-o"></i> Itens</a></li>
-                <li><a href="../item/tipo"><i class="fa fa-circle-o"></i> Tipos</a></li>
-                <li><a href="../item/fabricante"><i class="fa fa-circle-o"></i> Fabricantes</a></li>                
+                <li><a href="../modelo"><i class="fa fa-circle-o"></i> Modelos</a></li>
+                <li><a href="../proprietario"><i class="fa fa-circle-o"></i> Proprietários</a></li>
+                <li><a href="../viatura"><i class="fa fa-circle-o"></i> Viaturas</a></li>
               </ul>
             </li>                     
             
@@ -110,8 +110,8 @@
             </li>      
             
             <li>
-              <a href="../../alocacao">
-                <i class="fa fa-info-circle"></i> <span>Alocações</span>
+              <a href="../../unidade">
+                <i class="fa fa-info-circle"></i> <span>Unidades</span>
               </a>
             </li>
 
